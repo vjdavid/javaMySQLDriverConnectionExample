@@ -28,32 +28,34 @@ public class DetalleProducto extends javax.swing.JFrame {
     }
     
     public void mostrarDatos(String valor){
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Codigo");
+        DefaultTableModel modelo = new DefaultTableModel();        
         modelo.addColumn("Nombre");
         modelo.addColumn("Descripcion");
         modelo.addColumn("Precio");
+        modelo.addColumn("Presentacion");
+        modelo.addColumn("Codigo");
         tProductos.setModel(modelo);
         
         String sentenciaSQL = "";
         
         if (valor.equals("")){
-            sentenciaSQL = "SELCT * FROM productos"; 
+            sentenciaSQL = "SELECT * FROM productos"; 
         } else {
             sentenciaSQL = valor;
         }
         
-        String []datos = new String[4];
+        String []datos = new String[5];
         
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sentenciaSQL);
             
             while(rs.next()){
-                datos[0] = rs.getString(1);
-                datos[1] = rs.getString(2);
-                datos[2] = rs.getString(3);
-                datos[3] = rs.getString(4);
+                datos[0] = rs.getString(2);
+                datos[1] = rs.getString(3);
+                datos[2] = rs.getString(4);
+                datos[3] = rs.getString(5);
+                datos[4] = rs.getString(6);
                 
                 modelo.addRow(datos);
             }
@@ -89,6 +91,8 @@ public class DetalleProducto extends javax.swing.JFrame {
         btnNuevoRegistro = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tProductos = new javax.swing.JTable();
+        txtPresentacion = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,7 +102,7 @@ public class DetalleProducto extends javax.swing.JFrame {
 
         jLabel3.setText("Precio");
 
-        jLabel4.setText("Codigo");
+        jLabel4.setText("Presentacion:");
 
         txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,46 +170,53 @@ public class DetalleProducto extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tProductos);
 
+        jLabel5.setText("Codigo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(54, 54, 54)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                                    .addComponent(txtDescripcion)
-                                    .addComponent(txtPrecio))))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNuevoRegistro)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(btnConsultarGeneral, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnGrabarRegistro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnGuardarModificacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnBuscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtBuscarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(249, 249, 249)))
-                .addContainerGap(168, Short.MAX_VALUE))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                            .addComponent(txtDescripcion)
+                            .addComponent(txtPrecio))
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnConsultarGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGuardarModificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGrabarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtBuscarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(btnNuevoRegistro)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(btnBuscar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,22 +238,26 @@ public class DetalleProducto extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
+                        .addGap(45, 45, 45)
                         .addComponent(btnGrabarRegistro)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnConsultarGeneral)
                         .addGap(18, 18, 18)
                         .addComponent(btnGuardarModificacion)))
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBuscar)
+                    .addComponent(jLabel5)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoRegistro)
                     .addComponent(txtBuscarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevoRegistro))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                    .addComponent(btnBuscar))
+                .addGap(45, 45, 45)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(131, Short.MAX_VALUE))
         );
 
         pack();
@@ -266,10 +281,11 @@ public class DetalleProducto extends javax.swing.JFrame {
             PreparedStatement pst = cn.prepareStatement("INSERT INTO productos(nombre, descripcion, precio, presentacion, codigo) VALUES(?, ?, ?, ?, ?)");
 
             pst.setString(1, txtNombre.getText());
-            pst.setString(2, txtDescripcion.getText());
-            pst.setString(3, txtPrecio.getText());
-            pst.setString(4, txtCodigo.getText());
-
+            pst.setString(2, txtDescripcion.getText());            
+            pst.setDouble(3, Double.parseDouble(txtPrecio.getText()));
+            pst.setString(4, txtPresentacion.getText());
+            pst.setString(5, txtCodigo.getText());            
+                  
             pst.executeUpdate();
             mostrarDatos("");
         } catch (Exception e) {
@@ -284,7 +300,7 @@ public class DetalleProducto extends javax.swing.JFrame {
 
     private void btnGuardarModificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarModificacionActionPerformed
         try {
-            PreparedStatement pst = cn.prepareStatement("UPDATE productos SET descripcion='"+ txtDescripcion.getText()+"',precio='"+ txtPrecio.getText()+"',nombre='"+txtNombre.getText()+ "' WHERE codigo ='"+Integer.parseInt(Codigo)+"'");
+            PreparedStatement pst = cn.prepareStatement("UPDATE productos SET descripcion='"+ txtDescripcion.getText() + "',precio='" + txtPrecio.getText() + "',nombre='" + txtNombre.getText() + "',presentacion='" + txtPresentacion.getText() + "' WHERE codigo ='" + Integer.parseInt(txtCodigo.getText())+"'");
             pst.executeUpdate();
             
             mostrarDatos("");
@@ -298,6 +314,8 @@ public class DetalleProducto extends javax.swing.JFrame {
         txtNombre.setText("");
         txtDescripcion.setText("");
         txtPrecio.setText("");
+        txtPresentacion.setText("");
+        txtCodigo.setText("");
     }//GEN-LAST:event_btnNuevoRegistroActionPerformed
 
     private void txtBuscarRegistroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarRegistroKeyPressed
@@ -305,22 +323,24 @@ public class DetalleProducto extends javax.swing.JFrame {
         mostrarDatos(sentenciaSQL);
                 
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Codigo");
         modelo.addColumn("Nombre");
         modelo.addColumn("Descripcion");
         modelo.addColumn("Precio");
+        modelo.addColumn("Presentacion");
+        modelo.addColumn("Codigo");
         tProductos.setModel(modelo);
         
-        String []datos = new String[4];
+        String []datos = new String[5];
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sentenciaSQL);
             
             while(rs.next()){
-                datos[0] = rs.getString(1);
-                datos[1] = rs.getString(2);
-                datos[2] = rs.getString(3);
-                datos[3] = rs.getString(4);
+                datos[0] = rs.getString(2);
+                datos[1] = rs.getString(3);
+                datos[2] = rs.getString(4);
+                datos[3] = rs.getString(5);
+                datos[4] = rs.getString(6);
                 
                 modelo.addRow(datos);
             }
@@ -377,6 +397,7 @@ public class DetalleProducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tProductos;
     private javax.swing.JTextField txtBuscarRegistro;
@@ -384,6 +405,7 @@ public class DetalleProducto extends javax.swing.JFrame {
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtPresentacion;
     // End of variables declaration//GEN-END:variables
     
     Conectar cc = new Conectar();

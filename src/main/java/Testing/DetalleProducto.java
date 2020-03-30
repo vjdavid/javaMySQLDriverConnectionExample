@@ -75,6 +75,9 @@ public class DetalleProducto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        JPopUpMenu1 = new javax.swing.JPopupMenu();
+        jMenuItemModificar = new javax.swing.JMenuItem();
+        jMenuItemEliminar = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -93,6 +96,28 @@ public class DetalleProducto extends javax.swing.JFrame {
         tProductos = new javax.swing.JTable();
         txtPresentacion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+
+        JPopUpMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JPopUpMenu1MouseClicked(evt);
+            }
+        });
+
+        jMenuItemModificar.setText("jMenuItem1");
+        jMenuItemModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemModificarActionPerformed(evt);
+            }
+        });
+        JPopUpMenu1.add(jMenuItemModificar);
+
+        jMenuItemEliminar.setText("jMenuItem1");
+        jMenuItemEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEliminarActionPerformed(evt);
+            }
+        });
+        JPopUpMenu1.add(jMenuItemEliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -262,7 +287,7 @@ public class DetalleProducto extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
@@ -309,7 +334,7 @@ public class DetalleProducto extends javax.swing.JFrame {
             System.out.print(e.getMessage());
         } 
     }//GEN-LAST:event_btnGuardarModificacionActionPerformed
-
+    
     private void btnNuevoRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoRegistroActionPerformed
         txtNombre.setText("");
         txtDescripcion.setText("");
@@ -350,8 +375,44 @@ public class DetalleProducto extends javax.swing.JFrame {
             Logger.getLogger(DetalleProducto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_txtBuscarRegistroKeyPressed
+
+    private void jMenuItemModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemModificarActionPerformed
+        int fila = tProductos.getSelectedRow();
+        
+        if(fila >= 0) {
+            String codigo = tProductos.getValueAt(fila, 0).toString();
+            txtNombre.setText(tProductos.getValueAt(fila, 1).toString());
+            txtDescripcion.setText(tProductos.getValueAt(fila, 2).toString());
+            txtPresentacion.setText(tProductos.getValueAt(fila, 3).toString());
+        } else {
+            JOptionPane.showMessageDialog(null, "No selecciono fila");
+        }
+    }//GEN-LAST:event_jMenuItemModificarActionPerformed
+
+    private void JPopUpMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JPopUpMenu1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JPopUpMenu1MouseClicked
+
+    private void jMenuItemEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEliminarActionPerformed
+
+        int fila = tProductos.getSelectedRow();
+        String codigo = "";
+        codigo = tProductos.getValueAt(fila, 0).toString();
+        
+        try {
+            PreparedStatement pst = cn.prepareStatement("DELETE FROM productos WHERE codigo="+ Integer.parseInt(codigo)+"");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error", "No se pudo eliminar el registro: " + e, 1);
+        }
+        
+    }//GEN-LAST:event_jMenuItemEliminarActionPerformed
     
-    
+    public void setPopUpMenu(){
+        tProductos.setComponentPopupMenu(JPopUpMenu1);
+        
+            
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -388,6 +449,7 @@ public class DetalleProducto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPopupMenu JPopUpMenu1;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConsultarGeneral;
     private javax.swing.JButton btnGrabarRegistro;
@@ -398,6 +460,8 @@ public class DetalleProducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenuItem jMenuItemEliminar;
+    private javax.swing.JMenuItem jMenuItemModificar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tProductos;
     private javax.swing.JTextField txtBuscarRegistro;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Testing;
+package InterfaceProducto;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -103,7 +103,12 @@ public class DetalleProducto extends javax.swing.JFrame {
             }
         });
 
-        jMenuItemModificar.setText("jMenuItem1");
+        jMenuItemModificar.setText("Modificar");
+        jMenuItemModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItemModificarMouseClicked(evt);
+            }
+        });
         jMenuItemModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemModificarActionPerformed(evt);
@@ -111,7 +116,7 @@ public class DetalleProducto extends javax.swing.JFrame {
         });
         JPopUpMenu1.add(jMenuItemModificar);
 
-        jMenuItemEliminar.setText("jMenuItem1");
+        jMenuItemEliminar.setText("Eliminar");
         jMenuItemEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemEliminarActionPerformed(evt);
@@ -182,17 +187,8 @@ public class DetalleProducto extends javax.swing.JFrame {
             }
         });
 
-        tProductos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "id", "Nombre", "Descripcion", "Precio", "Presentacion"
-            }
-        ));
+        tProductos.setColumnSelectionAllowed(true);
+        tProductos.setComponentPopupMenu(JPopUpMenu1);
         jScrollPane1.setViewportView(tProductos);
 
         jLabel5.setText("Codigo");
@@ -281,8 +277,8 @@ public class DetalleProducto extends javax.swing.JFrame {
                     .addComponent(txtBuscarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addGap(45, 45, 45)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -377,13 +373,15 @@ public class DetalleProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarRegistroKeyPressed
 
     private void jMenuItemModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemModificarActionPerformed
+        DefaultTableModel model = (DefaultTableModel)tProductos.getModel();                
         int fila = tProductos.getSelectedRow();
         
-        if(fila >= 0) {
-            String codigo = tProductos.getValueAt(fila, 0).toString();
-            txtNombre.setText(tProductos.getValueAt(fila, 1).toString());
-            txtDescripcion.setText(tProductos.getValueAt(fila, 2).toString());
+        if(fila >= 0) {            
+            txtNombre.setText(tProductos.getValueAt(fila, 0).toString());
+            txtDescripcion.setText(tProductos.getValueAt(fila, 1).toString());
+            txtPrecio.setText(tProductos.getValueAt(fila, 2).toString());
             txtPresentacion.setText(tProductos.getValueAt(fila, 3).toString());
+            txtCodigo.setText(tProductos.getValueAt(fila, 4).toString());
         } else {
             JOptionPane.showMessageDialog(null, "No selecciono fila");
         }
@@ -394,24 +392,29 @@ public class DetalleProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_JPopUpMenu1MouseClicked
 
     private void jMenuItemEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEliminarActionPerformed
-
-        int fila = tProductos.getSelectedRow();
-        String codigo = "";
-        codigo = tProductos.getValueAt(fila, 0).toString();
+        DefaultTableModel model = (DefaultTableModel)tProductos.getModel();
+        int fila = tProductos.getSelectedRow();        
+        String codigo;       
+        
+        codigo = tProductos.getValueAt(fila, 4).toString();        
+        System.out.println("Esta es la fila numero: " + tProductos.getValueAt(fila, 4).toString());
         
         try {
             PreparedStatement pst = cn.prepareStatement("DELETE FROM productos WHERE codigo="+ Integer.parseInt(codigo)+"");
+            pst.executeUpdate();
+            mostrarDatos("");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Error", "No se pudo eliminar el registro: " + e, 1);
         }
         
     }//GEN-LAST:event_jMenuItemEliminarActionPerformed
-    
+
+    private void jMenuItemModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemModificarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemModificarMouseClicked
+        
     public void setPopUpMenu(){
-        tProductos.setComponentPopupMenu(JPopUpMenu1);
-        
-            
-        
+        tProductos.setComponentPopupMenu(JPopUpMenu1);                            
     }
     /**
      * @param args the command line arguments
